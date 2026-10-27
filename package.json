@@ -1,0 +1,24 @@
+{
+  "name": "fixflow",
+  "version": "1.0.0",
+  "description": "FixFlow - Smart Electronics Repair Operations Platform",
+  "type": "module",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node --watch server.js",
+    "test": "node tests/runner.js"
+  },
+  "dependencies": {
+    "express": "^4.21.2"
+  },
+  "keywords": [
+    "repair-operations",
+    "electronics",
+    "dependency-engine",
+    "inventory",
+    "debuglab"
+  ],
+  "author": "DEBUG//LAB",
+  "license": "ISC"
+}

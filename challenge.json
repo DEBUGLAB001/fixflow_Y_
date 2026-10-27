@@ -1,0 +1,23 @@
+{
+  "challenge_id": "fixflow",
+  "runtime_config": {
+    "runtime_type": "node-express",
+    "install_command": "npm install",
+    "start_command": "node --watch server.js",
+    "test_command": "npm test",
+    "ports": [
+      {
+        "container_port": 3000,
+        "type": "preview"
+      }
+    ]
+  },
+  "bug_topics": [
+    "Queue Urgency Calculation",
+    "Task Dependency Graph Resolution",
+    "Inventory Reservation Reconciliation",
+    "Job Cancellation Stock Release",
+    "Repair Cost Estimation",
+    "Quality Inspection State Transition"
+  ]
+}

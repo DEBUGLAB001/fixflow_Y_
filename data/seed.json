@@ -1,0 +1,709 @@
+{
+  "technicians": [
+    {
+      "id": "TECH-001",
+      "name": "Elena Rostova",
+      "email": "elena.r@fixflow.repair",
+      "phone": "+1 (555) 234-8901",
+      "skills": ["microsoldering_motherboard", "diagnostics_software", "data_recovery", "screen_replacement"],
+      "status": "available",
+      "maxConcurrentJobs": 3,
+      "rating": 4.95,
+      "specialty": "Logic Board & Micro-soldering"
+    },
+    {
+      "id": "TECH-002",
+      "name": "Marcus Vance",
+      "email": "marcus.v@fixflow.repair",
+      "phone": "+1 (555) 345-9012",
+      "skills": ["screen_replacement", "battery_replacement", "charging_port_repair", "audio_camera_repair"],
+      "status": "available",
+      "maxConcurrentJobs": 4,
+      "rating": 4.88,
+      "specialty": "Mobile Screens & Power Assemblies"
+    },
+    {
+      "id": "TECH-003",
+      "name": "Chloe Kim",
+      "email": "chloe.k@fixflow.repair",
+      "phone": "+1 (555) 456-0123",
+      "skills": ["screen_replacement", "battery_replacement", "diagnostics_software", "thermal_cooling_service"],
+      "status": "available",
+      "maxConcurrentJobs": 3,
+      "rating": 4.92,
+      "specialty": "Laptop Systems & Thermal Tuning"
+    },
+    {
+      "id": "TECH-004",
+      "name": "Jamal Crawford",
+      "email": "jamal.c@fixflow.repair",
+      "phone": "+1 (555) 567-1234",
+      "skills": ["battery_replacement", "charging_port_repair", "diagnostics_software"],
+      "status": "available",
+      "maxConcurrentJobs": 3,
+      "rating": 4.75,
+      "specialty": "Intake Diagnostics & Battery Cells"
+    }
+  ],
+  "inventory": [
+    {
+      "id": "PART-001",
+      "sku": "SCR-IP14-OLED",
+      "name": "iPhone 14 Pro Super Retina XDR OLED Display",
+      "category": "Display",
+      "supportedModels": ["iPhone 14 Pro", "iPhone 14 Pro Max"],
+      "onHand": 5,
+      "reserved": 1,
+      "reorderThreshold": 2,
+      "unitCost": 145.0,
+      "retailPrice": 249.0,
+      "supplier": "Apex Opto-Electronics",
+      "location": "Bin A-12"
+    },
+    {
+      "id": "PART-002",
+      "sku": "BAT-IP14-PRO",
+      "name": "iPhone 14 Pro Li-Ion Battery Cell 3200mAh",
+      "category": "Battery",
+      "supportedModels": ["iPhone 14 Pro"],
+      "onHand": 8,
+      "reserved": 1,
+      "reorderThreshold": 3,
+      "unitCost": 35.0,
+      "retailPrice": 79.0,
+      "supplier": "PowerCell Corp",
+      "location": "Bin B-04"
+    },
+    {
+      "id": "PART-003",
+      "sku": "SCR-MBP16-M2",
+      "name": "MacBook Pro 16\" Liquid Retina XDR Display Assembly",
+      "category": "Display",
+      "supportedModels": ["MacBook Pro 16 A2780"],
+      "onHand": 2,
+      "reserved": 0,
+      "reorderThreshold": 1,
+      "unitCost": 480.0,
+      "retailPrice": 699.0,
+      "supplier": "Cupertino OEM Spares",
+      "location": "Locker L-02"
+    },
+    {
+      "id": "PART-004",
+      "sku": "IC-PWR-PMIC",
+      "name": "MacBook M2 Logic Board PMIC Power Regulator TPS51980",
+      "category": "Component",
+      "supportedModels": ["MacBook Air M2", "MacBook Pro 14 M2", "MacBook Pro 16 M2"],
+      "onHand": 0,
+      "reserved": 0,
+      "reorderThreshold": 2,
+      "unitCost": 18.5,
+      "retailPrice": 45.0,
+      "supplier": "MicroSemiconductor Direct",
+      "location": "SMD Drawer S-08"
+    },
+    {
+      "id": "PART-005",
+      "sku": "PORT-USBC-UNIV",
+      "name": "Surface-Mount USB-C High-Current Charging Port 4.0",
+      "category": "Port",
+      "supportedModels": ["iPad Pro 11", "iPad Pro 12.9", "Galaxy Tab S8", "Universal"],
+      "onHand": 12,
+      "reserved": 1,
+      "reorderThreshold": 4,
+      "unitCost": 8.5,
+      "retailPrice": 25.0,
+      "supplier": "Amphenol Connectors",
+      "location": "Bin C-01"
+    },
+    {
+      "id": "PART-006",
+      "sku": "BAT-GLX-S23U",
+      "name": "Samsung Galaxy S23 Ultra Li-Po Battery 5000mAh",
+      "category": "Battery",
+      "supportedModels": ["Galaxy S23 Ultra SM-S918B"],
+      "onHand": 3,
+      "reserved": 0,
+      "reorderThreshold": 2,
+      "unitCost": 42.0,
+      "retailPrice": 85.0,
+      "supplier": "PowerCell Corp",
+      "location": "Bin B-07"
+    },
+    {
+      "id": "PART-007",
+      "sku": "SCR-GLX-S23U",
+      "name": "Galaxy S23 Ultra Dynamic AMOLED 2X Digitizer",
+      "category": "Display",
+      "supportedModels": ["Galaxy S23 Ultra SM-S918B"],
+      "onHand": 2,
+      "reserved": 1,
+      "reorderThreshold": 2,
+      "unitCost": 195.0,
+      "retailPrice": 299.0,
+      "supplier": "Apex Opto-Electronics",
+      "location": "Bin A-08"
+    },
+    {
+      "id": "PART-008",
+      "sku": "TP-THERMAL-K5",
+      "name": "K5-Pro Viscous Thermal Paste & Pad Replacement 10g",
+      "category": "Consumable",
+      "supportedModels": ["Dell XPS 15", "ThinkPad X1", "MacBook Pro"],
+      "onHand": 14,
+      "reserved": 2,
+      "reorderThreshold": 4,
+      "unitCost": 12.0,
+      "retailPrice": 22.0,
+      "supplier": "Computer Systems Greece",
+      "location": "Chem Shelf K-1"
+    },
+    {
+      "id": "PART-009",
+      "sku": "FAN-DELL-XPS15",
+      "name": "Dell XPS 15 9520 Dual Vapor Chamber Cooling Fan",
+      "category": "Cooling",
+      "supportedModels": ["Dell XPS 15 9520", "Dell XPS 15 9510"],
+      "onHand": 2,
+      "reserved": 0,
+      "reorderThreshold": 2,
+      "unitCost": 38.0,
+      "retailPrice": 65.0,
+      "supplier": "Delta Cooling Tech",
+      "location": "Bin D-03"
+    },
+    {
+      "id": "PART-010",
+      "sku": "CAM-IP14-TRIP",
+      "name": "iPhone 14 Pro Triple Camera Sensor Assembly 48MP",
+      "category": "Camera",
+      "supportedModels": ["iPhone 14 Pro"],
+      "onHand": 3,
+      "reserved": 0,
+      "reorderThreshold": 2,
+      "unitCost": 110.0,
+      "retailPrice": 185.0,
+      "supplier": "Apex Opto-Electronics",
+      "location": "Bin A-15"
+    }
+  ],
+  "inventoryAdjustments": [
+    {
+      "id": "ADJ-001",
+      "partId": "PART-001",
+      "timestamp": "2026-10-25T08:30:00.000Z",
+      "type": "intake",
+      "quantityChange": 5,
+      "reason": "Supplier shipment received (Apex PO #4491)",
+      "performer": "Shop Manager"
+    },
+    {
+      "id": "ADJ-002",
+      "partId": "PART-001",
+      "timestamp": "2026-10-26T09:15:00.000Z",
+      "type": "reservation",
+      "quantityChange": 1,
+      "reason": "Reserved for Job FIX-1001",
+      "performer": "System"
+    },
+    {
+      "id": "ADJ-003",
+      "partId": "PART-004",
+      "timestamp": "2026-10-26T11:00:00.000Z",
+      "type": "audit",
+      "quantityChange": -1,
+      "reason": "Defective IC discarded during testing. Stock exhausted.",
+      "performer": "Elena Rostova"
+    }
+  ],
+  "jobs": [
+    {
+      "id": "JOB-1001",
+      "jobNumber": "FIX-1001",
+      "customer": {
+        "name": "Sophia Martinez",
+        "phone": "+1 (555) 349-8812",
+        "email": "sophia.m@gmail.com"
+      },
+      "device": {
+        "type": "smartphone",
+        "manufacturer": "Apple",
+        "model": "iPhone 14 Pro",
+        "serialImei": "354892019283741",
+        "condition": "Cracked front glass, minor bezel nicks, touch responsive",
+        "reportedIssue": "Shattered display after drop. Battery draining quickly."
+      },
+      "priority": "urgent",
+      "status": "ready_to_repair",
+      "intakeDate": "2026-10-26T08:30:00.000Z",
+      "deadline": "2026-10-27T16:00:00.000Z",
+      "assignedTechnicianId": "TECH-002",
+      "diagnosis": {
+        "notes": "Front OLED assembly fractured. Battery health at 74% with elevated internal resistance. Logic board current draw normal.",
+        "diagnosedBy": "TECH-001",
+        "completedAt": "2026-10-26T09:10:00.000Z"
+      },
+      "estimate": {
+        "diagnosisFee": 39.0,
+        "laborHours": 1.5,
+        "laborRate": 80.0,
+        "partsCost": 180.0,
+        "taxRate": 10,
+        "subtotal": 339.0,
+        "tax": 18.0,
+        "total": 357.0,
+        "customerApproved": true,
+        "approvedAt": "2026-10-26T10:00:00.000Z"
+      },
+      "parts": [
+        { "partId": "PART-001", "quantity": 1, "status": "reserved" },
+        { "partId": "PART-002", "quantity": 1, "status": "reserved" }
+      ],
+      "tasks": [
+        {
+          "id": "TASK-1001-1",
+          "title": "Display Removal & Frame Adhesive Cleaning",
+          "description": "Unseat display flex cables and clean bezel residue using heated mat.",
+          "status": "completed",
+          "estimatedEffortMinutes": 25,
+          "requiredSkill": "screen_replacement",
+          "requiredParts": [{ "partId": "PART-001", "quantity": 1 }],
+          "prerequisites": [],
+          "assignedTechnicianId": "TECH-002",
+          "startedAt": "2026-10-26T10:30:00.000Z",
+          "completedAt": "2026-10-26T10:55:00.000Z"
+        },
+        {
+          "id": "TASK-1001-2",
+          "title": "Install Battery Cell & Calibrate Power Gauge",
+          "description": "Seat OEM battery with pull-tabs and connect diagnostic tool to reset cycle counter.",
+          "status": "ready",
+          "estimatedEffortMinutes": 20,
+          "requiredSkill": "battery_replacement",
+          "requiredParts": [{ "partId": "PART-002", "quantity": 1 }],
+          "prerequisites": ["TASK-1001-1"],
+          "assignedTechnicianId": "TECH-002"
+        },
+        {
+          "id": "TASK-1001-3",
+          "title": "Program TrueTone EEPROM & Mount OLED Screen",
+          "description": "Transfer ambient light sensor data and seal with waterproof adhesive.",
+          "status": "pending",
+          "estimatedEffortMinutes": 30,
+          "requiredSkill": "screen_replacement",
+          "requiredParts": [],
+          "prerequisites": ["TASK-1001-2"],
+          "assignedTechnicianId": "TECH-002"
+        }
+      ],
+      "activityHistory": [
+        {
+          "timestamp": "2026-10-26T08:30:00.000Z",
+          "action": "Job Created",
+          "details": "Customer Sophia Martinez registered device for urgent repair",
+          "actor": "Shop Manager"
+        },
+        {
+          "timestamp": "2026-10-26T09:10:00.000Z",
+          "action": "Diagnosis Completed",
+          "details": "Diagnosis recorded: display fractured, battery degraded",
+          "actor": "Elena Rostova"
+        },
+        {
+          "timestamp": "2026-10-26T10:00:00.000Z",
+          "action": "Estimate Approved",
+          "details": "Customer approved repair estimate",
+          "actor": "Shop Manager"
+        },
+        {
+          "timestamp": "2026-10-26T10:55:00.000Z",
+          "action": "Task Completed",
+          "details": "Task TASK-1001-1 marked completed by Marcus Vance",
+          "actor": "Marcus Vance"
+        }
+      ]
+    },
+    {
+      "id": "JOB-1002",
+      "jobNumber": "FIX-1002",
+      "customer": {
+        "name": "David Sterling",
+        "phone": "+1 (555) 872-4411",
+        "email": "d.sterling@acme.corp"
+      },
+      "device": {
+        "type": "laptop",
+        "manufacturer": "Apple",
+        "model": "MacBook Pro 16 M2",
+        "serialImei": "C02G9012MD6R",
+        "condition": "Coffee spill on right keyboard area. Corrosion near charge port.",
+        "reportedIssue": "Device completely unresponsive. No charging light."
+      },
+      "priority": "high",
+      "status": "waiting_for_parts",
+      "intakeDate": "2026-10-26T09:45:00.000Z",
+      "deadline": "2026-10-28T18:00:00.000Z",
+      "assignedTechnicianId": "TECH-001",
+      "diagnosis": {
+        "notes": "Short to ground detected on PPBUS_G3H rail. Primary PMIC IC TPS51980 has carbonized pin 14. Requires hot-air rework and trace repair.",
+        "diagnosedBy": "TECH-001",
+        "completedAt": "2026-10-26T11:00:00.000Z"
+      },
+      "estimate": {
+        "diagnosisFee": 59.0,
+        "laborHours": 2.5,
+        "laborRate": 100.0,
+        "partsCost": 18.5,
+        "taxRate": 10,
+        "subtotal": 327.5,
+        "tax": 1.85,
+        "total": 329.35,
+        "customerApproved": true,
+        "approvedAt": "2026-10-26T11:30:00.000Z"
+      },
+      "parts": [
+        { "partId": "PART-004", "quantity": 1, "status": "unfulfilled" }
+      ],
+      "tasks": [
+        {
+          "id": "TASK-1002-1",
+          "title": "Ultrasonic Board Cleaning & Corrosion Removal",
+          "description": "Strip logic board and clean in Branson ultrasonic bath with electronic solvent.",
+          "status": "completed",
+          "estimatedEffortMinutes": 45,
+          "requiredSkill": "microsoldering_motherboard",
+          "requiredParts": [],
+          "prerequisites": [],
+          "assignedTechnicianId": "TECH-001",
+          "startedAt": "2026-10-26T12:00:00.000Z",
+          "completedAt": "2026-10-26T12:45:00.000Z"
+        },
+        {
+          "id": "TASK-1002-2",
+          "title": "Micro-solder PMIC Regulator TPS51980",
+          "description": "Desolder burnt IC, rebuild damaged copper pads, solder replacement chip under microscope.",
+          "status": "blocked",
+          "estimatedEffortMinutes": 60,
+          "requiredSkill": "microsoldering_motherboard",
+          "requiredParts": [{ "partId": "PART-004", "quantity": 1 }],
+          "prerequisites": ["TASK-1002-1"],
+          "assignedTechnicianId": "TECH-001"
+        },
+        {
+          "id": "TASK-1002-3",
+          "title": "Power Rail Voltage & Thermal Imaging Test",
+          "description": "Inject 20V via USB-C breakout and monitor thermal camera for abnormal hot spots.",
+          "status": "pending",
+          "estimatedEffortMinutes": 30,
+          "requiredSkill": "diagnostics_software",
+          "requiredParts": [],
+          "prerequisites": ["TASK-1002-2"],
+          "assignedTechnicianId": "TECH-001"
+        }
+      ],
+      "activityHistory": [
+        {
+          "timestamp": "2026-10-26T09:45:00.000Z",
+          "action": "Job Created",
+          "details": "Customer David Sterling intake for liquid spill",
+          "actor": "Shop Manager"
+        },
+        {
+          "timestamp": "2026-10-26T11:00:00.000Z",
+          "action": "Diagnosis Completed",
+          "details": "Blown PMIC TPS51980 identified",
+          "actor": "Elena Rostova"
+        },
+        {
+          "timestamp": "2026-10-26T12:45:00.000Z",
+          "action": "Parts Shortage",
+          "details": "Part PART-004 is out of stock. Job moved to waiting_for_parts.",
+          "actor": "System"
+        }
+      ]
+    },
+    {
+      "id": "JOB-1003",
+      "jobNumber": "FIX-1003",
+      "customer": {
+        "name": "Liam Gallagher",
+        "phone": "+1 (555) 765-2319",
+        "email": "liam.g@soundwav.io"
+      },
+      "device": {
+        "type": "smartphone",
+        "manufacturer": "Samsung",
+        "model": "Galaxy S23 Ultra",
+        "serialImei": "990012384756192",
+        "condition": "Deep impact crater on bottom right glass. S-Pen ejects cleanly.",
+        "reportedIssue": "Flickering green lines and unresponsive lower touchscreen."
+      },
+      "priority": "medium",
+      "status": "ready_to_repair",
+      "intakeDate": "2026-10-26T11:15:00.000Z",
+      "deadline": "2026-10-29T14:00:00.000Z",
+      "assignedTechnicianId": "TECH-002",
+      "diagnosis": {
+        "notes": "Digitizer glass cracked and OLED array damaged by bottom corner shock. Sub-board and midframe intact.",
+        "diagnosedBy": "TECH-002",
+        "completedAt": "2026-10-26T11:45:00.000Z"
+      },
+      "estimate": {
+        "diagnosisFee": 29.0,
+        "laborHours": 1.25,
+        "laborRate": 80.0,
+        "partsCost": 195.0,
+        "taxRate": 10,
+        "subtotal": 324.0,
+        "tax": 19.5,
+        "total": 343.5,
+        "customerApproved": true,
+        "approvedAt": "2026-10-26T12:15:00.000Z"
+      },
+      "parts": [
+        { "partId": "PART-007", "quantity": 1, "status": "reserved" }
+      ],
+      "tasks": [
+        {
+          "id": "TASK-1003-1",
+          "title": "Rear Glass Heat Separation & Camera Shield Disassembly",
+          "description": "Separate back cover at 75°C without damaging wireless charging coil.",
+          "status": "pending",
+          "estimatedEffortMinutes": 25,
+          "requiredSkill": "screen_replacement",
+          "requiredParts": [],
+          "prerequisites": [],
+          "assignedTechnicianId": "TECH-002"
+        },
+        {
+          "id": "TASK-1003-2",
+          "title": "Motherboard Isolation & Frame Preparation",
+          "description": "Disconnect battery and transfer logic board to avoid ESD during display unseating.",
+          "status": "pending",
+          "estimatedEffortMinutes": 20,
+          "requiredSkill": "screen_replacement",
+          "requiredParts": [],
+          "prerequisites": ["TASK-1003-1"],
+          "assignedTechnicianId": "TECH-002"
+        },
+        {
+          "id": "TASK-1003-3",
+          "title": "Mount Dynamic AMOLED 2X Screen with Midframe Adhesive",
+          "description": "Install new digitizer and run ultrasonic fingerprint re-calibration.",
+          "status": "pending",
+          "estimatedEffortMinutes": 35,
+          "requiredSkill": "screen_replacement",
+          "requiredParts": [{ "partId": "PART-007", "quantity": 1 }],
+          "prerequisites": ["TASK-1003-1", "TASK-1003-2"],
+          "assignedTechnicianId": "TECH-002"
+        }
+      ],
+      "activityHistory": [
+        {
+          "timestamp": "2026-10-26T11:15:00.000Z",
+          "action": "Job Created",
+          "details": "Customer Liam Gallagher registered device",
+          "actor": "Shop Manager"
+        },
+        {
+          "timestamp": "2026-10-26T12:15:00.000Z",
+          "action": "Estimate Approved",
+          "details": "Customer approved quote",
+          "actor": "Shop Manager"
+        }
+      ]
+    },
+    {
+      "id": "JOB-1004",
+      "jobNumber": "FIX-1004",
+      "customer": {
+        "name": "Dr. Ronald Vance",
+        "phone": "+1 (555) 654-9988",
+        "email": "rvance@biohealth.edu"
+      },
+      "device": {
+        "type": "laptop",
+        "manufacturer": "Dell",
+        "model": "XPS 15 9520",
+        "serialImei": "7Y9QW23",
+        "condition": "Pristine exterior, minor exhaust vent dust accumulation.",
+        "reportedIssue": "Laptop thermal throttles heavily and fan makes loud grinding noise under load."
+      },
+      "priority": "high",
+      "status": "diagnosing",
+      "intakeDate": "2026-10-26T13:00:00.000Z",
+      "deadline": "2026-10-28T12:00:00.000Z",
+      "assignedTechnicianId": "TECH-003",
+      "diagnosis": null,
+      "estimate": null,
+      "parts": [],
+      "tasks": [
+        {
+          "id": "TASK-1004-1",
+          "title": "Thermal Stress Test & Fan Acoustic Profiling",
+          "description": "Run FurMark + Prime95 while logging CPU core temperatures and fan RPMs.",
+          "status": "pending",
+          "estimatedEffortMinutes": 30,
+          "requiredSkill": "diagnostics_software",
+          "requiredParts": [],
+          "prerequisites": [],
+          "assignedTechnicianId": "TECH-003"
+        }
+      ],
+      "activityHistory": [
+        {
+          "timestamp": "2026-10-26T13:00:00.000Z",
+          "action": "Job Created",
+          "details": "Intake completed for Dell XPS 15 overheating",
+          "actor": "Shop Manager"
+        }
+      ]
+    },
+    {
+      "id": "JOB-1005",
+      "jobNumber": "FIX-1005",
+      "customer": {
+        "name": "Maya Patel",
+        "phone": "+1 (555) 432-1109",
+        "email": "maya.p@designstudio.co"
+      },
+      "device": {
+        "type": "tablet",
+        "manufacturer": "Apple",
+        "model": "iPad Pro 12.9 M1",
+        "serialImei": "DMPZH04LNRD",
+        "condition": "Wobbly USB-C charging cable connection.",
+        "reportedIssue": "Intermittent charging. Only charges if cable is held at an upward angle."
+      },
+      "priority": "low",
+      "status": "quality_check",
+      "intakeDate": "2026-10-25T14:00:00.000Z",
+      "deadline": "2026-10-29T17:00:00.000Z",
+      "assignedTechnicianId": "TECH-002",
+      "diagnosis": {
+        "notes": "Internal CC pin bent and cracked solder joint on USB-C port daughterboard.",
+        "diagnosedBy": "TECH-002",
+        "completedAt": "2026-10-25T15:00:00.000Z"
+      },
+      "estimate": {
+        "diagnosisFee": 29.0,
+        "laborHours": 1.0,
+        "laborRate": 80.0,
+        "partsCost": 8.5,
+        "taxRate": 10,
+        "subtotal": 117.5,
+        "tax": 0.85,
+        "total": 118.35,
+        "customerApproved": true,
+        "approvedAt": "2026-10-25T15:30:00.000Z"
+      },
+      "parts": [
+        { "partId": "PART-005", "quantity": 1, "status": "consumed" }
+      ],
+      "tasks": [
+        {
+          "id": "TASK-1005-1",
+          "title": "Replace USB-C Surface Mount Receptacle",
+          "description": "Desolder defective port and install high-spec 4.0 connector.",
+          "status": "completed",
+          "estimatedEffortMinutes": 45,
+          "requiredSkill": "charging_port_repair",
+          "requiredParts": [{ "partId": "PART-005", "quantity": 1 }],
+          "prerequisites": [],
+          "assignedTechnicianId": "TECH-002",
+          "startedAt": "2026-10-26T09:00:00.000Z",
+          "completedAt": "2026-10-26T09:50:00.000Z"
+        }
+      ],
+      "activityHistory": [
+        {
+          "timestamp": "2026-10-25T14:00:00.000Z",
+          "action": "Job Created",
+          "details": "iPad Pro registered for USB-C port repair",
+          "actor": "Shop Manager"
+        },
+        {
+          "timestamp": "2026-10-26T09:50:00.000Z",
+          "action": "Repair Finished",
+          "details": "Port replacement completed. Sent to Quality Check.",
+          "actor": "Marcus Vance"
+        }
+      ]
+    },
+    {
+      "id": "JOB-1006",
+      "jobNumber": "FIX-1006",
+      "customer": {
+        "name": "Oliver Queen",
+        "phone": "+1 (555) 901-2233",
+        "email": "oliver.q@starling.org"
+      },
+      "device": {
+        "type": "smartphone",
+        "manufacturer": "Google",
+        "model": "Pixel 7 Pro",
+        "serialImei": "887712349051",
+        "condition": "Rear camera visor scratch, screen in excellent condition.",
+        "reportedIssue": "Battery swells slightly, pushing back panel slightly open."
+      },
+      "priority": "medium",
+      "status": "ready_for_collection",
+      "intakeDate": "2026-10-24T10:00:00.000Z",
+      "deadline": "2026-10-27T12:00:00.000Z",
+      "assignedTechnicianId": "TECH-004",
+      "diagnosis": {
+        "notes": "Pouch battery gas expansion detected. Replaced cell immediately.",
+        "diagnosedBy": "TECH-004",
+        "completedAt": "2026-10-24T11:00:00.000Z"
+      },
+      "estimate": {
+        "diagnosisFee": 25.0,
+        "laborHours": 0.75,
+        "laborRate": 80.0,
+        "partsCost": 40.0,
+        "taxRate": 10,
+        "subtotal": 125.0,
+        "tax": 4.0,
+        "total": 129.0,
+        "customerApproved": true,
+        "approvedAt": "2026-10-24T12:00:00.000Z"
+      },
+      "parts": [],
+      "tasks": [
+        {
+          "id": "TASK-1006-1",
+          "title": "Battery Replacement & Enclosure Reseal",
+          "description": "Safe extraction of expanded cell and clean frame reseal.",
+          "status": "completed",
+          "estimatedEffortMinutes": 35,
+          "requiredSkill": "battery_replacement",
+          "requiredParts": [],
+          "prerequisites": [],
+          "assignedTechnicianId": "TECH-004",
+          "startedAt": "2026-10-25T11:00:00.000Z",
+          "completedAt": "2026-10-25T11:40:00.000Z"
+        }
+      ],
+      "qualityInspection": {
+        "inspectorId": "TECH-001",
+        "result": "passed",
+        "notes": "Device passed 40W charging test, thermals steady at 31°C, water-resistance seals verified.",
+        "timestamp": "2026-10-25T14:30:00.000Z"
+      },
+      "activityHistory": [
+        {
+          "timestamp": "2026-10-24T10:00:00.000Z",
+          "action": "Job Created",
+          "details": "Pixel 7 battery replacement intake",
+          "actor": "Shop Manager"
+        },
+        {
+          "timestamp": "2026-10-25T14:30:00.000Z",
+          "action": "Quality Inspection Passed",
+          "details": "Passed QA inspection. Marked ready for collection.",
+          "actor": "Elena Rostova"
+        }
+      ]
+    }
+  ]
+}

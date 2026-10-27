@@ -1,0 +1,1182 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>FixFlow — Smart Electronics Repair Operations Platform</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;700&family=Outfit:wght@300;400;500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap"
+    rel="stylesheet">
+  <link rel="stylesheet" href="./css/app.css">
+</head>
+
+<body class="theme-dark">
+  <div id="app" class="app-layout">
+    <!-- TOP NAVIGATION -->
+    <header class="top-nav">
+      <div class="nav-brand">
+        <div class="brand-logo">
+          <svg class="brand-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path
+              d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z">
+            </path>
+          </svg>
+          <div class="brand-pulse"></div>
+        </div>
+        <div class="brand-meta">
+          <span class="brand-title">FIX<span class="gradient-text">FLOW</span></span>
+          <span class="brand-subtitle">Smart Repair Operations</span>
+        </div>
+      </div>
+
+      <div class="nav-search-bar">
+        <svg class="search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <circle cx="11" cy="11" r="8"></circle>
+          <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+        </svg>
+        <input type="text" id="globalSearchInput" placeholder="Search by Job #, customer, IMEI, or device model..."
+          autocomplete="off">
+        <kbd class="search-kbd">Ctrl+K</kbd>
+      </div>
+
+      <div class="nav-actions">
+        <div class="live-sync-indicator" title="Live Auto-Sync Active">
+          <span class="sync-dot"></span>
+          <span class="sync-text">LIVE SYNC</span>
+        </div>
+
+        <!-- Role Selector -->
+        <div class="role-selector-wrap">
+          <span class="role-label">Active Role:</span>
+          <select id="userRoleSelect" class="role-select">
+            <option value="manager">Shop Manager (Operations Lead)</option>
+            <option value="TECH-001">Technician: Elena Rostova (Logic Board)</option>
+            <option value="TECH-002">Technician: Marcus Vance (Mobile/Display)</option>
+            <option value="TECH-003">Technician: Chloe Kim (Laptops/Thermals)</option>
+            <option value="TECH-004">Technician: Jamal Crawford (Diagnostics)</option>
+          </select>
+        </div>
+
+        <button id="btnNewJob" class="btn btn-primary btn-glow">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="btn-icon">
+            <line x1="12" y1="5" x2="12" y2="19"></line>
+            <line x1="5" y1="12" x2="19" y2="12"></line>
+          </svg>
+          <span>New Repair Job</span>
+        </button>
+
+        <button id="btnResetState" class="btn btn-outline-danger btn-sm" title="Reset state to initial seed fixtures">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="btn-icon">
+            <path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"></path>
+            <path d="M3 3v5h5"></path>
+          </svg>
+          <span>Reset Demo</span>
+        </button>
+      </div>
+    </header>
+
+    <!-- WORKSPACE BODY WITH SIDEBAR & CONTENT -->
+    <div class="workspace-container">
+      <!-- SIDEBAR NAVIGATION -->
+      <aside class="sidebar">
+        <nav class="sidebar-nav">
+          <button class="nav-tab active" data-tab="overview">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <rect x="3" y="3" width="7" height="9"></rect>
+              <rect x="14" y="3" width="7" height="5"></rect>
+              <rect x="14" y="12" width="7" height="9"></rect>
+              <rect x="3" y="16" width="7" height="5"></rect>
+            </svg>
+            <span>Overview</span>
+            <span class="tab-badge" id="badgeTotalInShop">-</span>
+          </button>
+
+          <button class="nav-tab" data-tab="engine">
+            <div class="tab-icon-wrap">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <circle cx="12" cy="12" r="3"></circle>
+                <path
+                  d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z">
+                </path>
+              </svg>
+            </div>
+            <div class="tab-label-group">
+              <span>Repair Engine</span>
+              <span class="tab-sublabel">USP Smart Queue</span>
+            </div>
+            <span class="tab-badge badge-glow" id="badgeEngineReady">-</span>
+          </button>
+
+          <button class="nav-tab" data-tab="jobs">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+              <polyline points="14 2 14 8 20 8"></polyline>
+              <line x1="16" y1="13" x2="8" y2="13"></line>
+              <line x1="16" y1="17" x2="8" y2="17"></line>
+              <polyline points="10 9 9 9 8 9"></polyline>
+            </svg>
+            <span>Repair Jobs</span>
+            <span class="tab-badge" id="badgeJobsCount">-</span>
+          </button>
+
+          <button class="nav-tab" data-tab="technicians">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+              <circle cx="9" cy="7" r="4"></circle>
+              <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
+              <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+            </svg>
+            <span>Technicians</span>
+            <span class="tab-badge" id="badgeTechCount">4</span>
+          </button>
+
+          <button class="nav-tab" data-tab="inventory">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path
+                d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z">
+              </path>
+              <polyline points="3.27 6.96 12 12.01 20.73 6.96"></polyline>
+              <line x1="12" y1="22.08" x2="12" y2="12"></line>
+            </svg>
+            <span>Parts Inventory</span>
+            <span class="tab-badge badge-warning" id="badgeLowStockCount">0</span>
+          </button>
+
+          <button class="nav-tab" data-tab="graph">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <circle cx="6" cy="6" r="3"></circle>
+              <circle cx="18" cy="6" r="3"></circle>
+              <circle cx="12" cy="18" r="3"></circle>
+              <line x1="8.5" y1="7.5" x2="15.5" y2="7.5"></line>
+              <line x1="7.5" y1="8.5" x2="10.5" y2="15.5"></line>
+              <line x1="16.5" y1="8.5" x2="13.5" y2="15.5"></line>
+            </svg>
+            <span>Task Dependencies</span>
+          </button>
+
+          <button class="nav-tab" data-tab="reports">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <line x1="18" y1="20" x2="18" y2="10"></line>
+              <line x1="12" y1="20" x2="12" y2="4"></line>
+              <line x1="6" y1="20" x2="6" y2="14"></line>
+            </svg>
+            <span>Reports & Metrics</span>
+          </button>
+        </nav>
+
+        <div class="sidebar-footer">
+          <div class="shop-status-card">
+            <div class="shop-status-header">
+              <span class="status-indicator-dot online"></span>
+              <span class="shop-name">Downtown Lab #1</span>
+            </div>
+            <div class="shop-capacity-bar">
+              <div class="capacity-fill" id="sidebarCapacityFill" style="width: 65%;"></div>
+            </div>
+            <div class="shop-capacity-meta">
+              <span>Workload Capacity</span>
+              <span id="sidebarCapacityText">65% Loaded</span>
+            </div>
+          </div>
+        </div>
+      </aside>
+
+      <!-- MAIN CONTENT VIEW AREA -->
+      <main class="main-content">
+        <!-- 1. OPERATIONS OVERVIEW TAB -->
+        <section id="view-overview" class="view-panel active">
+          <div class="view-header">
+            <div>
+              <h1 class="view-title">Operations Command Center</h1>
+              <p class="view-description">Real-time electronics repair throughput, hardware blockers, and intelligent
+                recommendations.</p>
+            </div>
+            <div class="view-header-actions">
+              <button class="btn btn-secondary btn-sm" onclick="app.refreshAll()">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="btn-icon">
+                  <path d="M23 4v6h-6"></path>
+                  <path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"></path>
+                </svg>
+                <span>Refresh Data</span>
+              </button>
+            </div>
+          </div>
+
+          <!-- KPI METRIC CARDS -->
+          <div class="metrics-grid">
+            <div class="metric-card card-glow-cyan">
+              <div class="metric-top">
+                <span class="metric-label">Devices In Shop</span>
+                <span class="metric-icon-wrap cyan">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <rect x="5" y="2" width="14" height="20" rx="2" ry="2"></rect>
+                    <line x1="12" y1="18" x2="12.01" y2="18"></line>
+                  </svg>
+                </span>
+              </div>
+              <div class="metric-value" id="kpiInShop">0</div>
+              <div class="metric-footer">
+                <span class="metric-subtext"><strong id="kpiActivePercent">0%</strong> active on workbench</span>
+              </div>
+            </div>
+
+            <div class="metric-card card-glow-amber">
+              <div class="metric-top">
+                <span class="metric-label">Awaiting Diagnosis</span>
+                <span class="metric-icon-wrap amber">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <circle cx="12" cy="12" r="10"></circle>
+                    <line x1="12" y1="16" x2="12" y2="12"></line>
+                    <line x1="12" y1="8" x2="12.01" y2="8"></line>
+                  </svg>
+                </span>
+              </div>
+              <div class="metric-value" id="kpiAwaitingDiagnosis">0</div>
+              <div class="metric-footer">
+                <span class="metric-subtext text-warning">Requires intake technician inspection</span>
+              </div>
+            </div>
+
+            <div class="metric-card card-glow-purple">
+              <div class="metric-top">
+                <span class="metric-label">Repairs In Progress</span>
+                <span class="metric-icon-wrap purple">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path
+                      d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z">
+                    </path>
+                  </svg>
+                </span>
+              </div>
+              <div class="metric-value" id="kpiInProgress">0</div>
+              <div class="metric-footer">
+                <span class="metric-subtext">Bench technicians active</span>
+              </div>
+            </div>
+
+            <div class="metric-card card-glow-red">
+              <div class="metric-top">
+                <span class="metric-label">Waiting for Parts</span>
+                <span class="metric-icon-wrap red">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z">
+                    </path>
+                    <line x1="12" y1="9" x2="12" y2="13"></line>
+                    <line x1="12" y1="17" x2="12.01" y2="17"></line>
+                  </svg>
+                </span>
+              </div>
+              <div class="metric-value text-danger" id="kpiWaitingParts">0</div>
+              <div class="metric-footer">
+                <span class="metric-subtext text-danger">Inventory supply chain constraint</span>
+              </div>
+            </div>
+
+            <div class="metric-card card-glow-green">
+              <div class="metric-top">
+                <span class="metric-label">Ready for Collection</span>
+                <span class="metric-icon-wrap green">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
+                    <polyline points="22 4 12 14.01 9 11.01"></polyline>
+                  </svg>
+                </span>
+              </div>
+              <div class="metric-value text-success" id="kpiReadyCollection">0</div>
+              <div class="metric-footer">
+                <span class="metric-subtext text-success">Quality inspection verified</span>
+              </div>
+            </div>
+
+            <div class="metric-card card-glow-orange">
+              <div class="metric-top">
+                <span class="metric-label">Overdue / Critical</span>
+                <span class="metric-icon-wrap orange">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <circle cx="12" cy="12" r="10"></circle>
+                    <polyline points="12 6 12 12 16 14"></polyline>
+                  </svg>
+                </span>
+              </div>
+              <div class="metric-value text-warning" id="kpiOverdue">0</div>
+              <div class="metric-footer">
+                <span class="metric-subtext" id="kpiOverdueMeta">0 past service deadline</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- TWO COLUMN OVERVIEW BODY -->
+          <div class="overview-grid">
+            <!-- LEFT: USP ENGINE SPOTLIGHT -->
+            <div class="panel card-glass">
+              <div class="panel-header">
+                <div class="panel-header-title">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="panel-icon cyan">
+                    <circle cx="12" cy="12" r="3"></circle>
+                    <path
+                      d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z">
+                    </path>
+                  </svg>
+                  <div>
+                    <h3>Repair Dependency Engine — Top Recommendations</h3>
+                    <p class="panel-subtitle">Actionable repair operations ranked by deadline urgency, parts
+                      availability &amp; skill qualification</p>
+                  </div>
+                </div>
+                <button class="btn btn-link btn-sm" onclick="app.switchTab('engine')">View Full Queue &rarr;</button>
+              </div>
+
+              <div id="overviewRecommendationsList" class="recommendation-cards-container">
+                <!-- Dynamically populated -->
+                <div class="empty-state">Evaluating active repairs...</div>
+              </div>
+            </div>
+
+            <!-- RIGHT: HARDWARE BLOCKERS & INVENTORY ALERTS -->
+            <div class="panel card-glass">
+              <div class="panel-header">
+                <div class="panel-header-title">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="panel-icon amber">
+                    <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z">
+                    </path>
+                    <line x1="12" y1="9" x2="12" y2="13"></line>
+                    <line x1="12" y1="17" x2="12.01" y2="17"></line>
+                  </svg>
+                  <div>
+                    <h3>Operational Blockers &amp; Constraints</h3>
+                    <p class="panel-subtitle">Repairs halted by missing parts, incomplete diagnosis, or dependency
+                      chains</p>
+                  </div>
+                </div>
+              </div>
+
+              <div id="overviewBlockersList" class="blockers-list">
+                <!-- Dynamically populated -->
+                <div class="empty-state">No critical blockers detected</div>
+              </div>
+
+              <!-- LOW STOCK SPARES WIDGET -->
+              <div class="sub-panel mt-4">
+                <div class="sub-panel-header">
+                  <span class="sub-panel-title">Low Stock Spare Parts Alert</span>
+                  <button class="btn btn-link btn-xs" onclick="app.switchTab('inventory')">Manage Inventory</button>
+                </div>
+                <div id="overviewLowStockContainer" class="mini-table-wrap">
+                  <table class="data-table table-condensed">
+                    <thead>
+                      <tr>
+                        <th>Part / SKU</th>
+                        <th>On Hand</th>
+                        <th>Reserved</th>
+                        <th>Available</th>
+                        <th>Threshold</th>
+                      </tr>
+                    </thead>
+                    <tbody id="overviewLowStockTbody">
+                      <!-- Dynamically rendered -->
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- 2. REPAIR DEPENDENCY ENGINE TAB (USP) -->
+        <section id="view-engine" class="view-panel">
+          <div class="view-header">
+            <div>
+              <div class="badge-pill badge-primary mb-1">PROPRIETARY ENGINE USP</div>
+              <h1 class="view-title">Repair Dependency Engine</h1>
+              <p class="view-description">Intelligent heuristic scheduler synthesizing job priority, service deadline,
+                prerequisite DAG graphs, technician skill matching, and physical spare parts availability.</p>
+            </div>
+            <div class="view-header-actions">
+              <button class="btn btn-primary" onclick="app.loadEngineData()">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="btn-icon">
+                  <path d="M23 4v6h-6"></path>
+                  <path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"></path>
+                </svg>
+                <span>Re-evaluate Queue</span>
+              </button>
+            </div>
+          </div>
+
+          <div class="engine-stats-strip">
+            <div class="stat-pill">
+              <span class="stat-pill-label">Ready to Proceed:</span>
+              <strong id="engineStatReady" class="text-success">0 Tasks</strong>
+            </div>
+            <div class="stat-pill">
+              <span class="stat-pill-label">Operationally Blocked:</span>
+              <strong id="engineStatBlocked" class="text-danger">0 Tasks</strong>
+            </div>
+            <div class="stat-pill">
+              <span class="stat-pill-label">Engine Evaluation:</span>
+              <strong id="engineStatTimestamp">Real-time Backend Heuristic</strong>
+            </div>
+          </div>
+
+          <div class="engine-split-layout">
+            <!-- LEFT: ELIGIBLE AND RECOMMENDED WORK -->
+            <div class="panel">
+              <div class="panel-header">
+                <div class="panel-header-title">
+                  <span class="status-indicator-dot online"></span>
+                  <h3>Recommended Next Work (Eligible Queue)</h3>
+                </div>
+                <span class="badge-pill badge-success" id="engineReadyBadge">0 Ready</span>
+              </div>
+              <div class="panel-body">
+                <p class="text-muted text-sm mb-3">Tasks whose prerequisites are complete, required spare parts are in
+                  stock, and a qualified technician is ready for assignment.</p>
+                <div id="engineRecommendedCards" class="engine-cards-stack">
+                  <!-- Populated by JS -->
+                </div>
+              </div>
+            </div>
+
+            <!-- RIGHT: BLOCKED REPAIRS & BUSINESS ROADBLOCKS -->
+            <div class="panel">
+              <div class="panel-header">
+                <div class="panel-header-title">
+                  <span class="status-indicator-dot offline"></span>
+                  <h3>Blocked Repairs &amp; Real Constraints</h3>
+                </div>
+                <span class="badge-pill badge-danger" id="engineBlockedBadge">0 Blocked</span>
+              </div>
+              <div class="panel-body">
+                <p class="text-muted text-sm mb-3">Tasks held back by genuine operational constraints: incomplete
+                  prerequisite tasks, stockouts, or skill availability.</p>
+                <div id="engineBlockedCards" class="engine-blocked-stack">
+                  <!-- Populated by JS -->
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- 3. REPAIR JOBS TAB -->
+        <section id="view-jobs" class="view-panel">
+          <div class="view-header">
+            <div>
+              <h1 class="view-title">Repair Job Management</h1>
+              <p class="view-description">Complete end-to-end device tracking from customer intake, diagnosis, estimate
+                approval to quality inspection and collection.</p>
+            </div>
+            <div class="view-header-actions">
+              <button class="btn btn-primary" onclick="app.openNewJobModal()">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="btn-icon">
+                  <line x1="12" y1="5" x2="12" y2="19"></line>
+                  <line x1="5" y1="12" x2="19" y2="12"></line>
+                </svg>
+                <span>New Repair Job</span>
+              </button>
+            </div>
+          </div>
+
+          <!-- FILTERS TOOLBAR -->
+          <div class="filters-toolbar">
+            <div class="filter-group">
+              <label for="filterStatus">Status:</label>
+              <select id="filterStatus" class="form-select" onchange="app.filterJobs()">
+                <option value="">All Statuses</option>
+                <option value="received">Received</option>
+                <option value="diagnosing">Diagnosing</option>
+                <option value="awaiting_approval">Awaiting Approval</option>
+                <option value="waiting_for_parts">Waiting for Parts</option>
+                <option value="ready_to_repair">Ready to Repair</option>
+                <option value="in_progress">In Progress</option>
+                <option value="quality_check">Quality Check</option>
+                <option value="ready_for_collection">Ready for Collection</option>
+                <option value="completed">Completed</option>
+                <option value="cancelled">Cancelled</option>
+              </select>
+            </div>
+
+            <div class="filter-group">
+              <label for="filterPriority">Priority:</label>
+              <select id="filterPriority" class="form-select" onchange="app.filterJobs()">
+                <option value="">All Priorities</option>
+                <option value="urgent">Urgent</option>
+                <option value="high">High</option>
+                <option value="medium">Medium</option>
+                <option value="low">Low</option>
+              </select>
+            </div>
+
+            <div class="filter-group">
+              <label for="filterTechnician">Technician:</label>
+              <select id="filterTechnician" class="form-select" onchange="app.filterJobs()">
+                <option value="">All Technicians</option>
+                <option value="TECH-001">Elena Rostova</option>
+                <option value="TECH-002">Marcus Vance</option>
+                <option value="TECH-003">Chloe Kim</option>
+                <option value="TECH-004">Jamal Crawford</option>
+              </select>
+            </div>
+
+            <div class="filter-group flex-1">
+              <label for="filterSearchJobs">Search:</label>
+              <input type="text" id="filterSearchJobs" class="form-input" placeholder="Search customer, job #, model..."
+                oninput="app.filterJobs()">
+            </div>
+
+            <button class="btn btn-secondary btn-sm" onclick="app.resetJobFilters()">Reset Filters</button>
+          </div>
+
+          <!-- JOBS TABLE -->
+          <div class="panel mt-3">
+            <div class="table-responsive">
+              <table class="data-table" id="jobsTable">
+                <thead>
+                  <tr>
+                    <th>Job #</th>
+                    <th>Customer</th>
+                    <th>Device</th>
+                    <th>Priority</th>
+                    <th>Status</th>
+                    <th>Deadline</th>
+                    <th>Technician</th>
+                    <th>Estimate Total</th>
+                    <th>Actions</th>
+                  </tr>
+                </thead>
+                <tbody id="jobsTableBody">
+                  <!-- Populated by JS -->
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </section>
+
+        <!-- 4. TECHNICIANS & SKILLS TAB -->
+        <section id="view-technicians" class="view-panel">
+          <div class="view-header">
+            <div>
+              <h1 class="view-title">Technician &amp; Skill Management</h1>
+              <p class="view-description">Monitor workshop bench capacity, supported technical competencies, active
+                workload, and assignments.</p>
+            </div>
+          </div>
+
+          <div class="technicians-grid" id="techniciansGrid">
+            <!-- Dynamically populated -->
+          </div>
+        </section>
+
+        <!-- 5. PARTS INVENTORY TAB -->
+        <section id="view-inventory" class="view-panel">
+          <div class="view-header">
+            <div>
+              <h1 class="view-title">Spare-Parts Inventory Workspace</h1>
+              <p class="view-description">Physical stock levels, active job reservations, available allocation, and
+                reorder alerts.</p>
+            </div>
+          </div>
+
+          <!-- INVENTORY SUMMARY METRICS -->
+          <div class="inventory-kpi-strip">
+            <div class="inv-kpi-card">
+              <span class="inv-kpi-label">Total SKUs</span>
+              <strong class="inv-kpi-val" id="invTotalSKUs">0</strong>
+            </div>
+            <div class="inv-kpi-card">
+              <span class="inv-kpi-label">Physical Units on Hand</span>
+              <strong class="inv-kpi-val text-primary" id="invTotalOnHand">0</strong>
+            </div>
+            <div class="inv-kpi-card">
+              <span class="inv-kpi-label">Reserved for Active Jobs</span>
+              <strong class="inv-kpi-val text-warning" id="invTotalReserved">0</strong>
+            </div>
+            <div class="inv-kpi-card">
+              <span class="inv-kpi-label">Available for New Allocation</span>
+              <strong class="inv-kpi-val text-success" id="invTotalAvailable">0</strong>
+            </div>
+            <div class="inv-kpi-card">
+              <span class="inv-kpi-label">Low Stock Warnings</span>
+              <strong class="inv-kpi-val text-danger" id="invTotalLowStock">0</strong>
+            </div>
+          </div>
+
+          <!-- INVENTORY TOOLBAR -->
+          <div class="filters-toolbar mt-3">
+            <div class="filter-group">
+              <label><input type="checkbox" id="chkLowStockOnly" onchange="app.filterInventory()"> Low Stock
+                Only</label>
+            </div>
+            <div class="filter-group flex-1">
+              <input type="text" id="txtInventorySearch" class="form-input"
+                placeholder="Search by SKU, Part Name, Category or Device..." oninput="app.filterInventory()">
+            </div>
+          </div>
+
+          <!-- INVENTORY TABLE -->
+          <div class="panel mt-3">
+            <div class="table-responsive">
+              <table class="data-table" id="inventoryTable">
+                <thead>
+                  <tr>
+                    <th>SKU</th>
+                    <th>Part Name</th>
+                    <th>Category</th>
+                    <th>Supported Models</th>
+                    <th>Physical On Hand</th>
+                    <th>Reserved</th>
+                    <th>Available Stock</th>
+                    <th>Reorder Level</th>
+                    <th>Unit Cost</th>
+                    <th>Status</th>
+                    <th>Actions</th>
+                  </tr>
+                </thead>
+                <tbody id="inventoryTableBody">
+                  <!-- Populated by JS -->
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <!-- ADJUSTMENT HISTORY -->
+          <div class="panel mt-4">
+            <div class="panel-header">
+              <div class="panel-header-title">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="panel-icon cyan">
+                  <circle cx="12" cy="12" r="10"></circle>
+                  <polyline points="12 6 12 12 16 14"></polyline>
+                </svg>
+                <h3>Recent Stock Adjustments &amp; Audit Trail</h3>
+              </div>
+            </div>
+            <div class="table-responsive">
+              <table class="data-table table-condensed">
+                <thead>
+                  <tr>
+                    <th>Timestamp</th>
+                    <th>Part SKU</th>
+                    <th>Type</th>
+                    <th>Quantity Diff</th>
+                    <th>Reason</th>
+                    <th>Performer</th>
+                  </tr>
+                </thead>
+                <tbody id="inventoryAdjustmentsTbody">
+                  <!-- Populated by JS -->
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </section>
+
+        <!-- 6. TASK DEPENDENCY GRAPH TAB -->
+        <section id="view-graph" class="view-panel">
+          <div class="view-header">
+            <div>
+              <h1 class="view-title">Task Dependency Graph Explorer</h1>
+              <p class="view-description">Visual Directed Acyclic Graph (DAG) inspector for multi-stage electronics
+                repair workflows.</p>
+            </div>
+            <div class="view-header-actions">
+              <div class="filter-group">
+                <label for="graphJobSelect">Select Active Job:</label>
+                <select id="graphJobSelect" class="form-select" onchange="app.renderDependencyGraph()">
+                  <!-- Dynamically populated -->
+                </select>
+              </div>
+            </div>
+          </div>
+
+          <div class="panel">
+            <div class="graph-viewport-wrap">
+              <div id="dependencyGraphContainer" class="dag-container">
+                <!-- Rendered graph nodes and edges -->
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- 7. REPORTS & METRICS TAB -->
+        <section id="view-reports" class="view-panel">
+          <div class="view-header">
+            <div>
+              <h1 class="view-title">Operational Intelligence &amp; Reports</h1>
+              <p class="view-description">Turnaround performance, inventory valuation, technician distribution, and
+                financial estimates.</p>
+            </div>
+          </div>
+
+          <div class="reports-grid">
+            <div class="panel">
+              <div class="panel-header">
+                <h3>Job Status Distribution</h3>
+              </div>
+              <div id="reportStatusBars" class="chart-bars-wrap">
+                <!-- Populated by JS -->
+              </div>
+            </div>
+
+            <div class="panel">
+              <div class="panel-header">
+                <h3>Technician Workload Utilization</h3>
+              </div>
+              <div id="reportTechBars" class="chart-bars-wrap">
+                <!-- Populated by JS -->
+              </div>
+            </div>
+
+            <div class="panel">
+              <div class="panel-header">
+                <h3>Financial Summary (Approved Estimates)</h3>
+              </div>
+              <div class="financial-summary-body" id="reportFinancials">
+                <!-- Populated by JS -->
+              </div>
+            </div>
+
+            <div class="panel">
+              <div class="panel-header">
+                <h3>Service Level Performance</h3>
+              </div>
+              <div class="sla-summary-body" id="reportSla">
+                <!-- Populated by JS -->
+              </div>
+            </div>
+          </div>
+        </section>
+      </main>
+    </div>
+
+    <!-- MODALS & DRAWERS -->
+    <!-- 1. JOB DETAILS DRAWER -->
+    <div id="jobDetailsDrawer" class="drawer-overlay">
+      <div class="drawer-content">
+        <div class="drawer-header">
+          <div class="drawer-header-left">
+            <span class="drawer-job-number" id="drawerJobNumber">FIX-0000</span>
+            <span class="status-chip" id="drawerJobStatus">Status</span>
+            <span class="priority-chip" id="drawerJobPriority">Priority</span>
+          </div>
+          <button class="drawer-close" onclick="app.closeJobDrawer()">&times;</button>
+        </div>
+
+        <div class="drawer-body">
+          <!-- TABS INSIDE DRAWER -->
+          <div class="drawer-tab-bar">
+            <button class="drawer-tab active" data-drawer-tab="summary">Device &amp; Customer</button>
+            <button class="drawer-tab" data-drawer-tab="estimate">Diagnosis &amp; Estimate</button>
+            <button class="drawer-tab" data-drawer-tab="tasks">Tasks &amp; Parts</button>
+            <button class="drawer-tab" data-drawer-tab="quality">Quality Check</button>
+            <button class="drawer-tab" data-drawer-tab="history">Audit History</button>
+          </div>
+
+          <!-- DRAWER TAB 1: SUMMARY -->
+          <div id="drawerTab-summary" class="drawer-tab-content active">
+            <div class="detail-section">
+              <h4>Customer Information</h4>
+              <div class="detail-grid">
+                <div><label>Name:</label> <strong id="drawerCustName">-</strong></div>
+                <div><label>Phone:</label> <span id="drawerCustPhone">-</span></div>
+                <div><label>Email:</label> <span id="drawerCustEmail">-</span></div>
+              </div>
+            </div>
+
+            <div class="detail-section">
+              <h4>Device Identification</h4>
+              <div class="detail-grid">
+                <div><label>Device Type:</label> <span id="drawerDeviceType">-</span></div>
+                <div><label>Manufacturer:</label> <span id="drawerDeviceMake">-</span></div>
+                <div><label>Model:</label> <strong id="drawerDeviceModel">-</strong></div>
+                <div><label>Serial / IMEI:</label> <code id="drawerDeviceSerial">-</code></div>
+              </div>
+              <div class="mt-2">
+                <label>Intake Physical Condition:</label>
+                <p class="detail-box" id="drawerDeviceCondition">-</p>
+              </div>
+              <div class="mt-2">
+                <label>Reported Problem &amp; Symptoms:</label>
+                <p class="detail-box" id="drawerReportedIssue">-</p>
+              </div>
+            </div>
+
+            <div class="detail-section">
+              <h4>Technician Assignment &amp; Service Deadline</h4>
+              <div class="detail-grid">
+                <div>
+                  <label>Assigned Technician:</label>
+                  <select id="drawerAssignTechSelect" class="form-select mt-1" onchange="app.handleAssignTechnician()">
+                    <option value="">Unassigned</option>
+                    <option value="TECH-001">Elena Rostova (Logic Board)</option>
+                    <option value="TECH-002">Marcus Vance (Mobile Screen/Power)</option>
+                    <option value="TECH-003">Chloe Kim (Laptops/Thermals)</option>
+                    <option value="TECH-004">Jamal Crawford (Diagnostics)</option>
+                  </select>
+                </div>
+                <div>
+                  <label>Service Deadline:</label>
+                  <div id="drawerDeadlineBadge" class="mt-1">-</div>
+                </div>
+              </div>
+            </div>
+
+            <div class="drawer-actions mt-4">
+              <button class="btn btn-outline-danger" onclick="app.openCancelJobModal()">Cancel Repair Job</button>
+            </div>
+          </div>
+
+          <!-- DRAWER TAB 2: ESTIMATE -->
+          <div id="drawerTab-estimate" class="drawer-tab-content">
+            <div class="estimate-form-wrap">
+              <h4>Hardware Diagnosis</h4>
+              <textarea id="drawerDiagnosisNotes" class="form-textarea" rows="3"
+                placeholder="Record diagnosis findings, rail voltages, test observations..."></textarea>
+
+              <h4 class="mt-4">Repair Cost Calculation</h4>
+              <div class="estimate-inputs-grid">
+                <div class="form-group">
+                  <label>Diagnosis Fee ($):</label>
+                  <input type="number" step="0.5" id="estDiagnosisFee" class="form-input" value="39.0"
+                    oninput="app.updateEstimatePreview()">
+                </div>
+                <div class="form-group">
+                  <label>Labor Hours:</label>
+                  <input type="number" step="0.25" id="estLaborHours" class="form-input" value="1.5"
+                    oninput="app.updateEstimatePreview()">
+                </div>
+                <div class="form-group">
+                  <label>Labor Rate ($/hr):</label>
+                  <input type="number" step="5" id="estLaborRate" class="form-input" value="80.0"
+                    oninput="app.updateEstimatePreview()">
+                </div>
+                <div class="form-group">
+                  <label>Parts Cost ($):</label>
+                  <input type="number" step="0.5" id="estPartsCost" class="form-input" value="145.0"
+                    oninput="app.updateEstimatePreview()">
+                </div>
+                <div class="form-group">
+                  <label>Tax Rate (%):</label>
+                  <input type="number" step="1" id="estTaxRate" class="form-input" value="10"
+                    oninput="app.updateEstimatePreview()">
+                </div>
+              </div>
+
+              <!-- LIVE ESTIMATE CALCULATION BREAKDOWN -->
+              <div class="estimate-receipt-box">
+                <div class="receipt-row">
+                  <span>Diagnosis Fee:</span>
+                  <strong id="recDiagnosisFee">$0.00</strong>
+                </div>
+                <div class="receipt-row">
+                  <span>Labor Subtotal:</span>
+                  <strong id="recLaborCost">$0.00</strong>
+                </div>
+                <div class="receipt-row">
+                  <span>Spare Parts Subtotal:</span>
+                  <strong id="recPartsCost">$0.00</strong>
+                </div>
+                <div class="receipt-row subtotal-row">
+                  <span>Repair Subtotal:</span>
+                  <strong id="recSubtotal">$0.00</strong>
+                </div>
+                <div class="receipt-row">
+                  <span>Sales Tax:</span>
+                  <strong id="recTax">$0.00</strong>
+                </div>
+                <div class="receipt-row total-row">
+                  <span>Total Estimated Amount:</span>
+                  <strong id="recTotal" class="gradient-text">$0.00</strong>
+                </div>
+              </div>
+
+              <div class="estimate-approval-section mt-3">
+                <div id="drawerApprovalStatus" class="approval-badge-wrap">Awaiting Customer Approval</div>
+                <div class="d-flex gap-2 mt-3">
+                  <button class="btn btn-secondary" onclick="app.saveDiagnosisAndEstimate(false)">Save Estimate</button>
+                  <button class="btn btn-primary" onclick="app.saveDiagnosisAndEstimate(true)">Save &amp; Customer
+                    Approve</button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- DRAWER TAB 3: TASKS & PARTS -->
+          <div id="drawerTab-tasks" class="drawer-tab-content">
+            <div class="d-flex justify-between align-center mb-3">
+              <h4>Repair Tasks &amp; Prerequisite Workflow</h4>
+              <button class="btn btn-secondary btn-sm" onclick="app.openAddTaskModal()">+ Add Task</button>
+            </div>
+
+            <div id="drawerTasksList" class="tasks-list-container">
+              <!-- Rendered task cards with start/complete actions -->
+            </div>
+
+            <h4 class="mt-4 mb-2">Allocated / Reserved Spare Parts</h4>
+            <div id="drawerPartsList" class="parts-allocation-wrap">
+              <!-- Rendered parts list -->
+            </div>
+          </div>
+
+          <!-- DRAWER TAB 4: QUALITY CHECK -->
+          <div id="drawerTab-quality" class="drawer-tab-content">
+            <h4>Quality Control Inspection</h4>
+            <p class="text-sm text-muted mb-3">Thorough post-repair diagnostics and functional validation before
+              customer handover.</p>
+
+            <div id="qaInspectionStatusBox" class="qa-status-box mb-3">
+              <!-- Displays existing QA status -->
+            </div>
+
+            <div class="form-group mb-3">
+              <label>Inspection Outcome:</label>
+              <div class="qa-toggle-group">
+                <label class="qa-toggle-btn passed">
+                  <input type="radio" name="qaResult" value="passed" checked>
+                  <span>PASSED — Hardware Verified</span>
+                </label>
+                <label class="qa-toggle-btn failed">
+                  <input type="radio" name="qaResult" value="failed">
+                  <span>FAILED — Defects Found (Rework)</span>
+                </label>
+              </div>
+            </div>
+
+            <div class="form-group mb-3">
+              <label>Inspection Notes &amp; Checklist Verification:</label>
+              <textarea id="qaNotes" class="form-textarea" rows="3"
+                placeholder="Confirm touch response, thermal stability, camera focus, charge negotiation..."></textarea>
+            </div>
+
+            <button class="btn btn-primary" onclick="app.submitQualityInspection()">Record Quality Inspection</button>
+          </div>
+
+          <!-- DRAWER TAB 5: AUDIT HISTORY -->
+          <div id="drawerTab-history" class="drawer-tab-content">
+            <h4>Chronological Operational Audit Trail</h4>
+            <div class="timeline" id="drawerAuditTimeline">
+              <!-- Timeline events -->
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 2. NEW REPAIR JOB MODAL -->
+    <div id="newJobModal" class="modal-overlay">
+      <div class="modal-content modal-lg">
+        <div class="modal-header">
+          <h3>Register Customer Device &amp; Create Repair Job</h3>
+          <button class="modal-close" onclick="app.closeModal('newJobModal')">&times;</button>
+        </div>
+        <form id="newJobForm" onsubmit="app.handleCreateJob(event)">
+          <div class="modal-body">
+            <h5 class="form-section-title">Customer Details</h5>
+            <div class="form-row">
+              <div class="form-group flex-1">
+                <label>Customer Full Name *</label>
+                <input type="text" name="customerName" class="form-input" required placeholder="e.g. Liam Martinez">
+              </div>
+              <div class="form-group flex-1">
+                <label>Phone Number *</label>
+                <input type="tel" name="customerPhone" class="form-input" required placeholder="e.g. +1 (555) 923-4411">
+              </div>
+              <div class="form-group flex-1">
+                <label>Email Address</label>
+                <input type="email" name="customerEmail" class="form-input" placeholder="e.g. liam@example.com">
+              </div>
+            </div>
+
+            <h5 class="form-section-title mt-3">Device Identification</h5>
+            <div class="form-row">
+              <div class="form-group flex-1">
+                <label>Device Category *</label>
+                <select name="deviceType" class="form-select" required>
+                  <option value="smartphone">Smartphone</option>
+                  <option value="laptop">Laptop / Notebook</option>
+                  <option value="tablet">Tablet</option>
+                  <option value="smartwatch">Smartwatch</option>
+                  <option value="console">Gaming Console</option>
+                </select>
+              </div>
+              <div class="form-group flex-1">
+                <label>Manufacturer *</label>
+                <input type="text" name="manufacturer" class="form-input" required
+                  placeholder="e.g. Apple, Samsung, Dell">
+              </div>
+              <div class="form-group flex-1">
+                <label>Model Name / Number *</label>
+                <input type="text" name="model" class="form-input" required
+                  placeholder="e.g. iPhone 15 Pro, XPS 15 9530">
+              </div>
+              <div class="form-group flex-1">
+                <label>Serial / IMEI</label>
+                <input type="text" name="serialImei" class="form-input" placeholder="e.g. 359128091238475">
+              </div>
+            </div>
+
+            <div class="form-row mt-2">
+              <div class="form-group flex-1">
+                <label>Intake Physical Condition</label>
+                <input type="text" name="condition" class="form-input"
+                  placeholder="e.g. Scratched frame, cracked rear glass, water indicator red">
+              </div>
+              <div class="form-group flex-1">
+                <label>Job Priority</label>
+                <select name="priority" class="form-select">
+                  <option value="medium" selected>Medium Priority</option>
+                  <option value="low">Low Priority</option>
+                  <option value="high">High Priority</option>
+                  <option value="urgent">Urgent (Express Turnaround)</option>
+                </select>
+              </div>
+              <div class="form-group flex-1">
+                <label>Target Service Deadline</label>
+                <input type="datetime-local" name="deadline" class="form-input" id="newJobDeadlineInput">
+              </div>
+            </div>
+
+            <div class="form-group mt-2">
+              <label>Reported Customer Problem / Symptoms *</label>
+              <textarea name="reportedIssue" class="form-textarea" rows="2" required
+                placeholder="Detailed description of customer issue (e.g. Device does not turn on after liquid contact, battery discharges rapidly)..."></textarea>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" onclick="app.closeModal('newJobModal')">Cancel</button>
+            <button type="submit" class="btn btn-primary">Create Repair Job</button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <!-- 3. ADD TASK MODAL -->
+    <div id="addTaskModal" class="modal-overlay">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h3>Add Repair Task to Job</h3>
+          <button class="modal-close" onclick="app.closeModal('addTaskModal')">&times;</button>
+        </div>
+        <form id="addTaskForm" onsubmit="app.handleAddTask(event)">
+          <div class="modal-body">
+            <div class="form-group">
+              <label>Task Title *</label>
+              <input type="text" name="taskTitle" class="form-input" required
+                placeholder="e.g. Ultrasonic board cleaning &amp; drying">
+            </div>
+
+            <div class="form-group mt-2">
+              <label>Task Description</label>
+              <textarea name="taskDescription" class="form-textarea" rows="2"
+                placeholder="Specific technical steps, test parameters, disassembly cautions..."></textarea>
+            </div>
+
+            <div class="form-row mt-2">
+              <div class="form-group flex-1">
+                <label>Estimated Effort (Minutes)</label>
+                <input type="number" name="taskEffort" class="form-input" value="30" step="5">
+              </div>
+              <div class="form-group flex-1">
+                <label>Required Skill *</label>
+                <select name="taskSkill" class="form-select" required>
+                  <option value="screen_replacement">Screen Replacement</option>
+                  <option value="battery_replacement">Battery Replacement</option>
+                  <option value="microsoldering_motherboard">Micro-soldering &amp; Motherboard</option>
+                  <option value="diagnostics_software">Diagnostics &amp; Software</option>
+                  <option value="charging_port_repair">Charging Port Repair</option>
+                  <option value="thermal_cooling_service">Thermal &amp; Cooling Service</option>
+                  <option value="audio_camera_repair">Audio &amp; Camera Assembly</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="form-group mt-2">
+              <label>Prerequisite Tasks (Must complete before this task can start):</label>
+              <div id="addTaskPrereqsContainer" class="checkbox-group-box">
+                <!-- Checkboxes populated by JS -->
+              </div>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" onclick="app.closeModal('addTaskModal')">Cancel</button>
+            <button type="submit" class="btn btn-primary">Add Task</button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <!-- 4. ADJUST STOCK MODAL -->
+    <div id="adjustStockModal" class="modal-overlay">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h3>Inventory Stock Adjustment</h3>
+          <button class="modal-close" onclick="app.closeModal('adjustStockModal')">&times;</button>
+        </div>
+        <form id="adjustStockForm" onsubmit="app.handleAdjustStock(event)">
+          <div class="modal-body">
+            <input type="hidden" id="adjustPartId" name="partId">
+            <div class="part-badge-display mb-3">
+              <strong id="adjustPartName">-</strong>
+              <code id="adjustPartSku">-</code>
+            </div>
+
+            <div class="form-row">
+              <div class="form-group flex-1">
+                <label>Adjustment Type</label>
+                <select name="adjustmentType" class="form-select">
+                  <option value="intake">Stock Intake (Restock Shipment)</option>
+                  <option value="audit">Physical Audit Correction</option>
+                  <option value="damage">Damaged / Defective Discard</option>
+                  <option value="return">Customer Return</option>
+                </select>
+              </div>
+              <div class="form-group flex-1">
+                <label>Quantity Change (+ or -)</label>
+                <input type="number" name="quantityChange" class="form-input" required placeholder="e.g. +5 or -2">
+              </div>
+            </div>
+
+            <div class="form-group mt-2">
+              <label>Adjustment Reason / PO #</label>
+              <input type="text" name="reason" class="form-input" required placeholder="e.g. Apex PO #4891 arrived">
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" onclick="app.closeModal('adjustStockModal')">Cancel</button>
+            <button type="submit" class="btn btn-primary">Apply Adjustment</button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <!-- 5. CANCEL JOB MODAL -->
+    <div id="cancelJobModal" class="modal-overlay">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h3 class="text-danger">Confirm Job Cancellation</h3>
+          <button class="modal-close" onclick="app.closeModal('cancelJobModal')">&times;</button>
+        </div>
+        <div class="modal-body">
+          <p>Are you sure you want to cancel repair job <strong id="cancelJobNumber">FIX-XXXX</strong>? Any reserved
+            parts will be released according to inventory policy.</p>
+          <div class="form-group mt-3">
+            <label>Cancellation Reason *</label>
+            <input type="text" id="cancelJobReason" class="form-input"
+              placeholder="e.g. Customer declined repair estimate / device unrepairable">
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button class="btn btn-secondary" onclick="app.closeModal('cancelJobModal')">Keep Job</button>
+          <button class="btn btn-danger" onclick="app.confirmCancelJob()">Confirm Cancellation</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- TOAST NOTIFICATION CONTAINER -->
+    <div id="toastContainer" class="toast-container"></div>
+  </div>
+
+  <script src="./js/app.js"></script>
+</body>
+
+</html>
